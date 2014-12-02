@@ -49,7 +49,7 @@ server.setHandler( context );
 
 The first time, Maven will download a _lot_ of stuff. 
 ```
->  **mvn clean**
+>  mvn clean
 >  mvn compile
 >  mvn exec:java
 
