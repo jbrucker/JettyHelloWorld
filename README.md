@@ -49,7 +49,7 @@ server.setHandler( context );
 
 The first time, Maven will download a _lot_ of stuff. 
 ```
->  mvn clean
+>  **mvn clean**
 >  mvn compile
 >  mvn exec:java
 
@@ -58,10 +58,10 @@ Jetty Server started on port 8080...
 ```
 you can also write the  goals on one line: `mvn clean compile exec:java`.
 
-Now try sending some requests to ```http://localhost:8080/hello```.
+Now send some requests to ```http://localhost:8080/hello```.
 You should see a log message printed by the RequestLoggingFilter.
 
-If you send the requests faster than 1 per second (use curl or click "refresh" really fast), you should see some messages like this:
+If you send requests faster than 1 per second (click "refresh" really fast), you should see some messages like this:
 ```
 INFO RequestLoggingFilter - From 127.0.0.1:51830  GET /hello
 WARN org.eclipse.jetty.servlets.DoSFilter - DOS ALERT: Request rejected ip=127.0.0.1,session=null,user=null
