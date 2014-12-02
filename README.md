@@ -16,7 +16,7 @@ Below is a description of how to configure the DosFilter,
 how to run the project, and general method of adding a filter
 to an embedded Jetty project.
 
-## Adding Filters in an Embedded Jetty Project
+## Adding Filters to an Embedded Jetty Project
 
 The org.ske.JettyMain class shows how to configure filters
 and add them to a context.  After you create a ContextHandler,
@@ -38,7 +38,7 @@ FilterHolder holder = new FilterHolder( DoSFilter.class );
 // see DoSFilter Javadoc for names and meanings of init parameters
 holder.setInitParameter("maxRequestsPerSec", "5"); // "1" for testing
 holder.setInitParameter("delayMs", "200"); // "-1" to reject excess request
-holder.setInitParameter("remotePort", "true"); // maybe useful for web service
+holder.setInitParameter("remotePort", "false"); // "true" may be useful
 
 context.addFilter( holder, "/*", SCOPE );
 
@@ -49,11 +49,14 @@ server.setHandler( context );
 
 The first time, Maven will download a _lot_ of stuff. 
 ```
-  mvn clean
-  mvn compile
-  mvn exec:java
+>  mvn clean
+>  mvn compile
+>  mvn exec:java
+
+[lots of messages]
+Jetty Server started on port 8080...
 ```
-you can write all the goals on one line: ```mvn clean compile exec:java```.
+you can also write the  goals on one line: `mvn clean compile exec:java`.
 
 Now try sending some requests to ```http://localhost:8080/hello```.
 You should see a log message printed by the RequestLoggingFilter.
@@ -64,9 +67,11 @@ INFO RequestLoggingFilter - From 127.0.0.1:51830  GET /hello
 WARN org.eclipse.jetty.servlets.DoSFilter - DOS ALERT: Request rejected ip=127.0.0.1,session=null,user=null
 ```
 
-The "WARN" message shows you the DosFilter is working.  As you can see below, I configured it to only allow 1 request per second per client, and to REJECT excess requests (the normal behavior is to queue extra requests and insert a delay).
+The "WARN" message shows you the DosFilter is working.  As you can see below, I configured it to allow only 1 request per second per client, and to REJECT excess requests (the normal behavior is to queue extra requests and insert a delay).
+Realistically, you would allow more requests per second and not reject excess requests until the request queue is full.
 
 When a request is rejected your browser should display:
+
 **HTTP ERROR: 503**<br>
 Service Unavailable
 
@@ -84,15 +89,25 @@ The DoSFilter uses a priority queue for requests. It gives priority to:
 * connections identified by IP address
 * (lowest priority) requests with no way to identify requester
 
-Your web application needs these 2 Jar files available to the application at run-time:
+To use this filter, your web application needs these two Jar files:
 jetty-util.jar and
 jetty-servlets.jar
 
-For a Maven project, you need these artifacts in your dependencies:
-* `jetty-server` provides `jetty-util.jar`
-* `jetty-servlets` provides `jetty-servlets.jar`
+For a Maven project, include these artifacts in your dependencies:
+```
+<dependency>
+    <groupId>org.eclipse.jetty</groupId>
+    <artifactId>jetty-server</artifactId>
+    <version>${jetty.version}</version>
+</dependency>
+<dependency>
+    <groupId>org.eclipse.jetty</groupId>
+    <artifactId>jetty-servlets</artifactId>
+    <version>${jetty.version}</version>
+</dependency>
+```
 
-## Parameters for Configuring DoSFilter
+## Parameters to Configure DoSFilter
 
 The DoSFilter has many parameters to configure filter behavior and allowed request rates. They are all described in the DoSFilter Javadoc.
 
@@ -118,7 +133,7 @@ http://alvinalexander.com/java/jwarehouse/jetty-6.1.9/modules/util/src/main/java
 
 This sample code also has a request logging filter.
 At first I used java.util.logging.Logger to output messages, but the log messages are ugly
-so I added Simple Logging for Java (slf4j).
+so I switched to Simple Logging for Java (slf4j).
 slf4j is a wrapper for other logging frameworks, such as Log4J.
 
 To use slf4j in a Maven project requires dependencies for slf4j-api,
