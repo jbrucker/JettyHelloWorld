@@ -41,12 +41,10 @@ holder.setInitParameter("delayMs", "200"); // "-1" to reject excess request
 holder.setInitParameter("remotePort", "false"); // "true" may be useful
 
 context.addFilter( holder, "/*", SCOPE );
-
 server.setHandler( context );
 ```
 
 ## Build and Run this Project using Maven
-
 The first time, Maven will download a _lot_ of stuff. 
 ```
 >  mvn clean
