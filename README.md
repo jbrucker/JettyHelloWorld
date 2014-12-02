@@ -6,11 +6,22 @@ that illustrates using a rate-limiting filter and logging
 filter with embedded Jetty.
 
 Rate limiting is done using Jetty's DoSFilter.
-Request logging is done using a provided class that implements
-javax.servlet.Filter.
+Request logging is done using a filter class I wrote (its easy)
+that implements javax.servlet.Filter.
+
+Both filters use Simple Logging for Java (slf4j), which is
+included in the Maven dependencies.
+
+Below is a description of how to configure the DosFilter,
+how to run the project, and general method of adding a filter
+to an embedded Jetty project.
+
+## Adding Filters in an Embedded Jetty Project
 
 The org.ske.JettyMain class shows how to configure filters
-and add them to a context.  The code is:
+and add them to a context.  After you create a ContextHandler,
+you use the ``context.addFilter`` method (which is overloaded).
+An example is:
 ```
 // ContextHandler for your web service or servlets:
 ServletContextHandler context = new ServletContextHandler();
