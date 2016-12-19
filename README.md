@@ -12,6 +12,9 @@ that implements javax.servlet.Filter.
 Both filters use Simple Logging for Java (slf4j), which is
 included in the Maven dependencies.
 
+The resource itself is `HellowResource.java` in org.ske.resource,
+which uses standard JAX-RS annotations.
+
 Below is a description of how to configure the DosFilter,
 how to run the project, and general method of adding a filter
 to an embedded Jetty project.
