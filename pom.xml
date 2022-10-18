@@ -9,10 +9,10 @@
 	<name>Jetty HelloWorld</name>
 
 	<properties>
-		<jetty.version>[8.1.16,8.2)</jetty.version>
-		<jersey.version>[2.13, )</jersey.version>
+		<jetty.version>[9.4.49,)</jetty.version>
+		<jersey.version>[2.37,3.0)</jersey.version>
 		<jaxrs.api.version>2.0</jaxrs.api.version>
-		<slf4j.version>1.6.1</slf4j.version>
+		<slf4j.version>[1.7.36,2.0)</slf4j.version>
 	</properties>
 
 	<dependencies>
